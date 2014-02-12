@@ -31,7 +31,6 @@ def make_text(chains):
         #print "key & value" , (key, chains[key])
         random_index = randrange(0, len(chains[key]))
         #print "RI" , random_index
-        #temp_text = key[0] + " " + key[1] + " " + chains[key][random_index] + " "
         #print "temptext" , temp_text
         text = text + " " + chains[key][random_index]
         #print "key1" , key[1]
@@ -41,6 +40,9 @@ def make_text(chains):
         #print "next key", key
     return text
   
+def modify_text(text):
+        modifiedtext = "abc"  
+        return modifiedtext
 
 def main():
     args = sys.argv
@@ -62,7 +64,8 @@ def main():
     random_text = make_text(chain_dict)
     print "\n Random text is here: \n" , random_text
 
-
+    modifiedtext = modify_text(random_text)
+    print "Modified text is \n", modifiedtext
     
 
 
