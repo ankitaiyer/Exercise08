@@ -9,7 +9,10 @@ def make_chains(corpus):
     chain_dict = {}
     for i in range(len(corpus) -2):
         key = (corpus[i], corpus[i+1])
-        chain_dict[key] = corpus[i+2]
+        if not chain_dict.get(key):
+            chain_dict[key] = [corpus[i+2]]
+        else:
+            chain_dict[key].append(corpus[i+2])
     return chain_dict
 
 def take(n, iterable):
@@ -23,11 +26,10 @@ def make_text(chains):
     n_items = take(3, chains)
     for item in n_items:
         split_tuple1, split_tuple2 = item
-        temp_text = split_tuple1 + " " + split_tuple2 + " " + chains[item] + " "
+        temp_text = split_tuple1 + " " + split_tuple2 + " " + chains[item][0] + " "
         text = text + temp_text
-    print " final text is ", text
-
-    #return "Here's some random text."
+    return text
+  
 
 def main():
     args = sys.argv
@@ -39,8 +41,12 @@ def main():
     input_text = f.read()
 
     split_input_text =  input_text.split()
+    #print split_input_text
+    #print "----------------"
 
     chain_dict = make_chains(split_input_text)
+    print chain_dict
+    #print "------------"
     
     random_text = make_text(chain_dict)
     print random_text
