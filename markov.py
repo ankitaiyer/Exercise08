@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 from itertools import islice
+from random import randrange
 import sys
 import random
 
@@ -22,20 +23,22 @@ def take(n, iterable):
 def make_text(chains):
     """Takes a dictionary of markov chains and returns random text
     based off an original text."""
-    text = ""
-    # n_items = take(3, chains)
-    # for item in n_items:
-    #     split_tuple1, split_tuple2 = item
-    #     temp_text = split_tuple1 + " " + split_tuple2 + " " + chains[item][0] + " "
-    #     text = text + temp_text
     key = random.choice(chains.keys())
+    text = key[0] + " " + key[1]
     while key in chains.keys():
-        print key, chains[key]
-        temp_text = key[0] + " " + key[1] + " " + chains[key][0] + " "
-        #print temp_text
-        text = text + temp_text
-        key =  (key[1],chains[key][0])
-        print key
+        #print key, chains[key]
+        #temp_text = key[0] + " " + key[1] + " " + chains[key][0] + " "
+        #print "key & value" , (key, chains[key])
+        random_index = randrange(0, len(chains[key]))
+        #print "RI" , random_index
+        #temp_text = key[0] + " " + key[1] + " " + chains[key][random_index] + " "
+        #print "temptext" , temp_text
+        text = text + " " + chains[key][random_index]
+        #print "key1" , key[1]
+        # print "nextvalue" , chains[key][random_index]
+        # print "RI later" , random_index
+        key =  (key[1],chains[key][random_index])
+        #print "next key", key
     return text
   
 
@@ -57,7 +60,7 @@ def main():
     #print "------------"
     
     random_text = make_text(chain_dict)
-    print random_text
+    print "\n Random text is here: \n" , random_text
 
 
     
