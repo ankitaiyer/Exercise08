@@ -23,26 +23,26 @@ def take(n, iterable):
 def make_text(chains):
     """Takes a dictionary of markov chains and returns random text
     based off an original text."""
-    key = random.choice(chains.keys())
+    # key = random.choice(chains.keys())
+    #calling a function to find a capitalized key
+    key = find_capitalized_key(chains)
     text = key[0] + " " + key[1]
     while key in chains.keys():
-        #print key, chains[key]
-        #temp_text = key[0] + " " + key[1] + " " + chains[key][0] + " "
-        #print "key & value" , (key, chains[key])
         random_index = randrange(0, len(chains[key]))
-        #print "RI" , random_index
-        #print "temptext" , temp_text
         text = text + " " + chains[key][random_index]
-        #print "key1" , key[1]
-        # print "nextvalue" , chains[key][random_index]
-        # print "RI later" , random_index
         key =  (key[1],chains[key][random_index])
-        #print "next key", key
     return text
   
-def modify_text(text):
-        modifiedtext = "abc"  
-        return modifiedtext
+def find_capitalized_key(chains):
+    while True:
+        key = random.choice(chains.keys()) 
+        key_firstletter = key[0][0]
+        # print "Key's first letter is ", key_firstletter
+        # print "case of first letter is", key_firstletter.isupper()
+        if key_firstletter.isupper():
+            print "letter is uppercase"
+            break    
+    return key
 
 def main():
     args = sys.argv
@@ -64,8 +64,8 @@ def main():
     random_text = make_text(chain_dict)
     print "\n Random text is here: \n" , random_text
 
-    modifiedtext = modify_text(random_text)
-    print "Modified text is \n", modifiedtext
+    key = find_capitalized_key(chain_dict)
+    print "key is",  key
     
 
 
