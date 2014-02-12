@@ -15,27 +15,16 @@ def make_chains(corpus):
             chain_dict[key].append(corpus[i+2])
     return chain_dict
 
-def take(n, iterable):
-    "Return first n items of the iterable as a list"
-    return list(islice(iterable, n))
 
 def make_text(chains):
     """Takes a dictionary of markov chains and returns random text
     based off an original text."""
-    text = ""
-    # n_items = take(3, chains)
-    # for item in n_items:
-    #     split_tuple1, split_tuple2 = item
-    #     temp_text = split_tuple1 + " " + split_tuple2 + " " + chains[item][0] + " "
-    #     text = text + temp_text
+    text = " "
     key = random.choice(chains.keys())
-    while key in chains.keys():
-        print key, chains[key]
+    for key in chains.keys():
         temp_text = key[0] + " " + key[1] + " " + chains[key][0] + " "
-        #print temp_text
-        text = text + temp_text
-        key =  (key[1],chains[key][0])
-        print key
+        key = (key[1],chains[key][0])
+        text = text + "\n" + temp_text    
     return text
   
 
@@ -49,12 +38,12 @@ def main():
     input_text = f.read()
 
     split_input_text =  input_text.split()
-    #print split_input_text
-    #print "----------------"
+    print "original file text is " , split_input_text
 
     chain_dict = make_chains(split_input_text)
+    print "--- chain dict ---------"
     print chain_dict
-    #print "------------"
+    print "------After this -------"
     
     random_text = make_text(chain_dict)
     print random_text
