@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from itertools import islice
 import sys
-
+import random
 
 def make_chains(corpus):
     """Takes an input text as a string and returns a dictionary of
@@ -23,11 +23,19 @@ def make_text(chains):
     """Takes a dictionary of markov chains and returns random text
     based off an original text."""
     text = ""
-    n_items = take(3, chains)
-    for item in n_items:
-        split_tuple1, split_tuple2 = item
-        temp_text = split_tuple1 + " " + split_tuple2 + " " + chains[item][0] + " "
+    # n_items = take(3, chains)
+    # for item in n_items:
+    #     split_tuple1, split_tuple2 = item
+    #     temp_text = split_tuple1 + " " + split_tuple2 + " " + chains[item][0] + " "
+    #     text = text + temp_text
+    key = random.choice(chains.keys())
+    while key in chains.keys():
+        print key, chains[key]
+        temp_text = key[0] + " " + key[1] + " " + chains[key][0] + " "
+        #print temp_text
         text = text + temp_text
+        key =  (key[1],chains[key][0])
+        print key
     return text
   
 
@@ -50,6 +58,10 @@ def main():
     
     random_text = make_text(chain_dict)
     print random_text
+
+
+    
+
 
 if __name__ == "__main__":
     main()
