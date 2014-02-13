@@ -48,30 +48,34 @@ def tweet_text(some_text):
     access_token = os.environ.get("ACCESS_TOKEN_KEY")
     access_token_secret = os.environ.get("ACCES_TOKEN_SECRET")
 
-    #api = twitter.Api(consumer_key=twitter_key,
-                      # consumer_secret=twitter_secret_key,
-                      # access_token_key=access_token,
-                      # access_token_secret=access_token_secret)
+    api = twitter.Api(consumer_key=twitter_key,
+                      consumer_secret=twitter_secret_key,
+                      access_token_key=access_token,
+                      access_token_secret=access_token_secret)
 
     #print api.VerifyCredentials()
     #status = api.PostUpdate('I love python-twitter!')
+    #status = api.PostUpdate('Testing Python-Twitter API. Pls ignore my tweets.')
     #print status.text
-    # api.PostUpdate(twitter_key , some_text)
+    print some_text
+    status = api.PostUpdate(some_text)
+    print status.text
     
-def insert_newlines(string, every=141):
+def insert_newlines(string, every=65):
     #new_text =  '\n'.join(string[i:i+every] for i in range(0, len(string), every))
     # for i in range(0, len(string), every):
     #     new_text ='\n'.join(string[i:i+every]) 
     lines = []
+    lines1 = []
     for i in range(0, len(string), every):
         lines.append(string[i:i+every])
-    return '\n'.join(lines)
-    print lines
-    return lines  
+        lines1 =  '\n'.join(lines)
+    
+    return lines1  
 
 def main():
     args = sys.argv
-    script, filename = args
+    script, filename, filename2 = args
 
 
     # Read input_text from a file
@@ -79,8 +83,12 @@ def main():
     input_text = f.read()
     f.close()
 
+    f1 = open(filename2)
+    new_input_text = f1.read()
+    f1.close()
+
     #Separate file into words by space
-    split_input_text =  input_text.split()
+    split_input_text = input_text.split() + new_input_text.split()
     #print split_input_text
     #print "----------------"
 
@@ -91,13 +99,13 @@ def main():
     
     # Make text using marcov's dict
     random_text = make_text(chain_dict)
-    if len(random_text) > 141:
+    if len(random_text) > 65:
         random_text = insert_newlines(random_text)
     print "\n Random text is here: \n" , random_text
     
   
     #set the twitter api and tweet the generated message
-    tweet_text(random_text)
+    # tweet_text(random_text)
 
   
         
