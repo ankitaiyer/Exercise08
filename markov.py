@@ -22,7 +22,7 @@ def make_text(chains):
     based off an original text."""
     # key = random.choice(chains.keys())
     #calling a function to find a capitalized key
-    key = find_capitalized_key(chains)
+    key = isCapital(chains)
     text = key[0] + " " + key[1]
     while key in chains.keys():
         random_index = randrange(0, len(chains[key]))
@@ -30,7 +30,8 @@ def make_text(chains):
         key =  (key[1],chains[key][random_index])
     return text
   
-def find_capitalized_key(chains):
+def isCapital(chains):
+    #check_ascii_code = ord(key[0]) > ord('A') and ord(key[0]) < ord('Z')
     while True:
         key = random.choice(chains.keys()) 
         key_firstletter = key[0][0]
@@ -47,17 +48,26 @@ def tweet_text(some_text):
     access_token = os.environ.get("ACCESS_TOKEN_KEY")
     access_token_secret = os.environ.get("ACCES_TOKEN_SECRET")
 
-    api = twitter.Api(consumer_key=twitter_key,
-                      consumer_secret=twitter_secret_key,
-                      access_token_key=access_token,
-                      access_token_secret=access_token_secret)
+    #api = twitter.Api(consumer_key=twitter_key,
+                      # consumer_secret=twitter_secret_key,
+                      # access_token_key=access_token,
+                      # access_token_secret=access_token_secret)
 
     #print api.VerifyCredentials()
-    status = api.PostUpdate('I love python-twitter!')
-    print status.text
+    #status = api.PostUpdate('I love python-twitter!')
+    #print status.text
     # api.PostUpdate(twitter_key , some_text)
     
- 
+def insert_newlines(string, every=141):
+    #new_text =  '\n'.join(string[i:i+every] for i in range(0, len(string), every))
+    # for i in range(0, len(string), every):
+    #     new_text ='\n'.join(string[i:i+every]) 
+    lines = []
+    for i in range(0, len(string), every):
+        lines.append(string[i:i+every])
+    return '\n'.join(lines)
+    print lines
+    return lines  
 
 def main():
     args = sys.argv
@@ -76,16 +86,22 @@ def main():
 
     #Create a dict with bigrams(keys) & following word(value)
     chain_dict = make_chains(split_input_text)
-    print chain_dict
+    #print chain_dict
     #print "------------"
     
     # Make text using marcov's dict
     random_text = make_text(chain_dict)
+    if len(random_text) > 141:
+        random_text = insert_newlines(random_text)
     print "\n Random text is here: \n" , random_text
     
-    #set the twitter api key
-    
+  
+    #set the twitter api and tweet the generated message
     tweet_text(random_text)
+
+  
+        
+
     
 
     
