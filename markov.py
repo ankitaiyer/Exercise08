@@ -8,14 +8,14 @@ import twitter
 def make_chains(corpus):
     """Takes an input text as a string and returns a dictionary of
     markov chains."""
-    marcov_dict = {}
+    markov_dict = {}
     for i in range(len(corpus) -2):
         key = (corpus[i], corpus[i+1])
-        if not marcov_dict.get(key):
-            marcov_dict[key] = [corpus[i+2]]
+        if not markov_dict.get(key):
+            markov_dict[key] = [corpus[i+2]]
         else:
-            marcov_dict[key].append(corpus[i+2])
-    return marcov_dict
+            markov_dict[key].append(corpus[i+2])
+    return markov_dict
 
 def make_text(chains):
     """Takes a dictionary of markov chains and returns random text
@@ -89,81 +89,30 @@ def main():
 
     #Separate file into words by space
     split_input_text = input_text.split() + new_input_text.split()
-    #print split_input_text
-    #print "----------------"
+    
 
     #Create a dict with bigrams(keys) & following word(value)
     chain_dict = make_chains(split_input_text)
-    #print chain_dict
-    #print "------------"
+   
     
-    # Make text using marcov's dict
+    # Make text using markov's dict
     random_text = make_text(chain_dict)
     if len(random_text) > 65:
-        random_text = insert_newlines(random_text)
-    print "\n Random text is here: \n" , random_text
-    
+        random_text_list = insert_newlines(random_text)
   
+    
+    # TODO - If text has punc characters then print it on next line
+    for i in range(len(random_text)):
+        if random_text[i]
+    
+
+    print "\n Random text is here: \n" , random_text_list
     #set the twitter api and tweet the generated message
     # tweet_text(random_text)
 
-  
-        
-
     
-
-    
-
-
-
-
-
-
-    # #Find a capitalzed word in random text
-    # word_list = random_text.split()
-    # print type(word_list)
-    # print word_list
-
-    # x = 0
-    # for word in word_list:
-    #     if not word[0].isupper():
-    #         print x
-    #         word_list.insert(x,"abc")
-    #         print word
-    #     x += 1
-    # print word_list
-
 
 
 if __name__ == "__main__":
     main()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# get the text file on command line
-# open a file
-# read a file
-# Close a file
-# seperate the file into words
-# Strip the punctuations from words
-# create begrams using Marcov theory
-# create dictionary to store bigram as Key and possible words as values
-# for random bigram on the left in marov list,
-# we will use a possible word in right  and create a text line using,
-# the bigrams again ont he left
-# print the line.
