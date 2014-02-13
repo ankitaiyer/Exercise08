@@ -1,24 +1,21 @@
 #!/usr/bin/env python
-from itertools import islice
 from random import randrange
 import sys
 import random
+import os
+import twitter
 
 def make_chains(corpus):
     """Takes an input text as a string and returns a dictionary of
     markov chains."""
-    chain_dict = {}
+    marcov_dict = {}
     for i in range(len(corpus) -2):
         key = (corpus[i], corpus[i+1])
-        if not chain_dict.get(key):
-            chain_dict[key] = [corpus[i+2]]
+        if not marcov_dict.get(key):
+            marcov_dict[key] = [corpus[i+2]]
         else:
-            chain_dict[key].append(corpus[i+2])
-    return chain_dict
-
-def take(n, iterable):
-    "Return first n items of the iterable as a list"
-    return list(islice(iterable, n))
+            marcov_dict[key].append(corpus[i+2])
+    return marcov_dict
 
 def make_text(chains):
     """Takes a dictionary of markov chains and returns random text
@@ -40,33 +37,78 @@ def find_capitalized_key(chains):
         # print "Key's first letter is ", key_firstletter
         # print "case of first letter is", key_firstletter.isupper()
         if key_firstletter.isupper():
-            print "letter is uppercase"
             break    
     return key
+
+
+def tweet_text(some_text):
+    twitter_key = os.environ.get("TWITTER_API_KEY")
+    twitter_secret_key = os.environ.get("TWITTER_SECRET_KEY")
+    access_token = os.environ.get("ACCESS_TOKEN_KEY")
+    access_token_secret = os.environ.get("ACCES_TOKEN_SECRET")
+
+    api = twitter.Api(consumer_key=twitter_key,
+                      consumer_secret=twitter_secret_key,
+                      access_token_key=access_token,
+                      access_token_secret=access_token_secret)
+
+    #print api.VerifyCredentials()
+    status = api.PostUpdate('I love python-twitter!')
+    print status.text
+    # api.PostUpdate(twitter_key , some_text)
+    
+ 
 
 def main():
     args = sys.argv
     script, filename = args
 
 
-    # Change this to read input_text from a file
+    # Read input_text from a file
     f = open(filename)
     input_text = f.read()
+    f.close()
 
+    #Separate file into words by space
     split_input_text =  input_text.split()
     #print split_input_text
     #print "----------------"
 
+    #Create a dict with bigrams(keys) & following word(value)
     chain_dict = make_chains(split_input_text)
     print chain_dict
     #print "------------"
     
+    # Make text using marcov's dict
     random_text = make_text(chain_dict)
     print "\n Random text is here: \n" , random_text
-
-    key = find_capitalized_key(chain_dict)
-    print "key is",  key
     
+    #set the twitter api key
+    
+    tweet_text(random_text)
+    
+
+    
+
+
+
+
+
+
+    # #Find a capitalzed word in random text
+    # word_list = random_text.split()
+    # print type(word_list)
+    # print word_list
+
+    # x = 0
+    # for word in word_list:
+    #     if not word[0].isupper():
+    #         print x
+    #         word_list.insert(x,"abc")
+    #         print word
+    #     x += 1
+    # print word_list
+
 
 
 if __name__ == "__main__":
